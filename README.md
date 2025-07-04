@@ -8,16 +8,20 @@ A real-time collaborative whiteboard web application. Users can create or join r
 - Real-time collaborative drawing (multiple users)
 - Live user cursor indicators
 - Room list and browsing
-- Drawing data persists for 24 hours (MongoDB TTL)
-- Responsive, modern UI (React)
-- Service worker support for offline/PWA
-- Export whiteboard as image
+- Responsive design for both desktop and tablet use
+- Display cursors with different colors for each user
+- Hide cursor when user is inactive
+- Clean up old room data (rooms inactive for 24+ hours)
+- Connection status indicator
+- User count display
+- Export whiteboard as image(.png)
 
 ## Tech Stack
 
-- **Frontend:** React, socket.io-client, Create React App
-- **Backend:** Node.js, Express, Socket.io, MongoDB (Mongoose)
-- **Other:** Service Worker (PWA), CORS
+- **Frontend:** React.js
+- **Backend:** Node.js/Express.js
+- **Database:** MongoDB
+- **Real-time Communication:** Socket.io
 
 ## Getting Started
 
@@ -72,6 +76,7 @@ A real-time collaborative whiteboard web application. Users can create or join r
 - Open the app in your browser.
 - Create a new room or join an existing one using a 6-8 character code.
 - Share the room code with others to collaborate in real-time.
+- Export whiteboard as image(.png).
 
 ### Project Structure
 
@@ -95,6 +100,8 @@ board/
     socket/
       whiteboard.js
     server.js
+   README.md
+   package.json
 ```
 
 ### API Endpoints
@@ -106,7 +113,7 @@ board/
 
 ### Environment Variables
 
-- By default, the backend connects to `mongodb://localhost:27017/whiteboard`.
+- The backend connects to `mongodb://localhost:27017/whiteboard`.
 - To change the port or MongoDB URI, set `PORT` and `MONGODB_URI` in your environment.
 
 ### License
