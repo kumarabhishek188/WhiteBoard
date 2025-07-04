@@ -23,7 +23,7 @@ A real-time collaborative whiteboard web application. Users can create or join r
 - **Database:** MongoDB
 - **Real-time Communication:** Socket.io
 
-## Getting Started
+## Getting Started (Setup Instruction):
 
 ### Prerequisites
 
@@ -78,11 +78,25 @@ A real-time collaborative whiteboard web application. Users can create or join r
 - Share the room code with others to collaborate in real-time.
 - Export whiteboard as image(.png).
 
+## Architecture Overview
+
+The application follows a client-server architecture:
+
+- **Frontend (React):** Handles the user interface, drawing canvas, room management, and real-time updates via Socket.IO. Deployed as a static site (e.g., on Vercel).
+- **Backend (Node.js/Express/Socket.IO):** Provides REST API endpoints for room management and real-time collaboration using WebSockets. Persists drawing data and room info in MongoDB. Deployed on a cloud platform (e.g., Render, Railway, Heroku).
+- **Database (MongoDB):** Stores room and drawing data with TTL for automatic cleanup.
+
+**Data Flow:**
+- Users interact with the React frontend, which communicates with the backend via REST API and Socket.IO for real-time features.
+- The backend manages room state, drawing data, and broadcasts updates to all connected clients in a room.
+
+
 ### Project Structure
 
 ```
 board/
-  client/      # React frontend
+  client/                  # React frontend
+    public/
     src/
       components/
         DrawingCanvas.js
@@ -91,17 +105,18 @@ board/
         UserCursors.js
         Whiteboard.js
       App.js
-      ...
-  server/      # Node.js backend
+      index.js
+  server/                  # Node.js backend
     models/
-      Room.js
+      Room.js              # Mongoose schema
     routes/
-      rooms.js
+      rooms.js             # Room-related API routes
     socket/
-      whiteboard.js
-    server.js
-   README.md
-   package.json
+      whiteboard.js        # Socket.IO handlers
+    server.js              # Entry point
+  README.md
+  package.json
+
 ```
 
 ### API Endpoints
@@ -115,6 +130,24 @@ board/
 
 - The backend connects to `mongodb://localhost:27017/whiteboard`.
 - To change the port or MongoDB URI, set `PORT` and `MONGODB_URI` in your environment.
+
+
+## Deployment Guide
+
+### Backend Deployment (Render/Railway/Heroku)
+1. Push the `server/` folder to a GitHub repository.
+2. Create a new project on your chosen platform and connect your repo.
+3. Set environment variables:
+   - `MONGODB_URI` (your MongoDB connection string)
+   - `CLIENT_ORIGIN` (your Vercel frontend URL, e.g., `https://your-app.vercel.app`)
+   - `PORT` (usually set automatically by the platform)
+4. Deploy and note the backend URL (e.g., `https://your-backend.onrender.com`).
+
+### Frontend Deployment (Vercel)
+1. Push the `client/` folder to a GitHub repository.
+2. Import the repo into Vercel and deploy.
+3. In your React app, update all API and Socket.IO URLs to use your backend’s public URL (e.g., `https://your-backend.onrender.com`).
+4. Redeploy if you make changes to the backend URL.
 
 ### License
 
